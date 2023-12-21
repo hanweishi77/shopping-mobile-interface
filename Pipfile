@@ -1,0 +1,38 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[[source]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+verify_ssl = false
+name = "mirrorsaliyun"
+
+[[source]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+verify_ssl = true
+name = "pypitunatsinghuaedu"
+
+[[source]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+verify_ssl = true
+name = "pypitunatsinghuaedu"
+
+[[source]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
+verify_ssl = true
+name = "pypitunatsinghuaedu"
+
+[packages]
+flask = "*"
+flask-cors = "*"
+flask-sqlalchemy = {version = "*", index = "pypitunatsinghuaedu"}
+pymysql = {version = "*", index = "pypitunatsinghuaedu"}
+pyjwt = {version = "*", index = "pypitunatsinghuaedu"}
+pillow = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
+python_full_version = "3.9.7"

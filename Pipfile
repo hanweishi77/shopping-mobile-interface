@@ -19,20 +19,25 @@ verify_ssl = true
 name = "pypitunatsinghuaedu"
 
 [[source]]
-url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
-verify_ssl = true
-name = "pypitunatsinghuaedu"
+url = "http://mirrors.aliyun.com/pypi/simple/"
+verify_ssl = false
+name = "mirrorsaliyun-987"
 
 [packages]
 flask = "*"
-flask-cors = "*"
-flask-sqlalchemy = {version = "*", index = "pypitunatsinghuaedu"}
-pymysql = {version = "*", index = "pypitunatsinghuaedu"}
-pyjwt = {version = "*", index = "pypitunatsinghuaedu"}
-pillow = "*"
+nanoid = "*"
+pillow = {version = "*", index = "mirrorsaliyun"}
+werkzeug = {version = "*", index = "pypitunatsinghuaedu"}
+pyjwt = {version = "*", index = "mirrorsaliyun-987"}
+elasticsearch = "==7.12.1"
 
 [dev-packages]
 
 [requires]
 python_version = "3.9"
-python_full_version = "3.9.7"
+flask = 3.0
+PyJWT=2.8
+alembic=1.13
+SQLAlchemy=2.0
+nanoid=2.0
+Pillow=10.1

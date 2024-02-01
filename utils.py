@@ -6,11 +6,11 @@ from functools import wraps
 
 
 # 生成token
-def generate_token(userid, username, duration=3600):
+def generate_token(userid, username, duration=3600*24):
     """
     :param userid:
     :param username:
-    :param duration: ‘默认3600秒’
+    :param duration: ‘默认3600*24秒’
     :return: token
     """
     exp = datetime.utcnow() + timedelta(seconds=duration)
@@ -70,4 +70,3 @@ def verify_login(fn):
             pass
         return fn(*args, **kwargs)
     return inner_fn
-

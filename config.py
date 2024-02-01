@@ -1,6 +1,7 @@
 class Config:
-    # 通讯密钥，WTF表单post提交需要,session也要
+    # 通讯密钥，WTF表单post提交需要,session也需要
     SECRET_KEY = "fadfadfafdsffadfadf"
+    # 开启debug
     DEBUG = True
     # 连接mysql数据库的配置
     HOSTNAME = "127.0.0.1"  # 本机
@@ -12,6 +13,6 @@ class Config:
     # SQLALCHEMY_DATABASE_URI为系统变量名
     SQLALCHEMY_DATABASE_URI = DB_URI
     # 设置是否跟踪数据库的修改情况，一般不跟踪
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
     # 数据库操作时后台是否显示原始SQL语句
     SQLALCHEMY_ECHO = False

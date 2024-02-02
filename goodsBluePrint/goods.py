@@ -15,34 +15,34 @@ def search():
     # query = data.get("goodsName")
     # page = data.get("page") | 1
     es = Elasticsearch(['http://192.168.43.85:9200'])
-    write_elasticsearch(es)
-    # dsl = {
-    #     "query": {
-    #         "multi_match": {
-    #             "query": '华为',
-    #             "fields": ["goods_name", "goods_caption"]
-    #         }
-    #     }
-    # }
-    # results = es.search(index="shopping_mobile_db", body=dsl)
-    # goods_list = []
-    # for row in results.get("hits").get("hits"):
-    #     goods_list.append(row.get("_source"))
-    # print(goods_list)
-    # data = {
-    #     "status": 200,
-    #     "message": "success",
-    #     "data": {
-    #         "list": {
-    #             "total": len(goods_list),
-    #             "per_page": 15,
-    #             "current_page": 1,
-    #             "last_page": 1,
-    #             "data": goods_list
-    #         }
-    #     }
-    # }
-    return "hh"
+    # write_elasticsearch(es)
+    dsl = {
+        "query": {
+            "multi_match": {
+                "query": '小米',
+                "fields": ["goods_name", "goods_caption"]
+            }
+        }
+    }
+    results = es.search(index="index_goods", body=dsl)
+    goods_list = []
+    for row in results.get("hits").get("hits"):
+        goods_list.append(row.get("_source"))
+    print(goods_list)
+    data = {
+        "status": 200,
+        "message": "success",
+        "data": {
+            "list": {
+                "total": len(goods_list),
+                "per_page": 15,
+                "current_page": 1,
+                "last_page": 1,
+                "data": goods_list
+            }
+        }
+    }
+    return results
 
 
 """

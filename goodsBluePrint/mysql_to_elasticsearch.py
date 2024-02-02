@@ -88,43 +88,43 @@ def mappings():
     }
 
 
-# 把取出的数据写入到elasticsearch
-def write_elasticsearch(es, index="index_goods"):
-    # 创建ES索引-如存在则不创建
-    list_es_index = [line.split() for line in es.cat.indices().splitlines()][0]
-    print('@', index, list_es_index, index in list_es_index)
-    if index not in list_es_index:
-        es.indices.create(index=index, body=mappings())
+def get_spu_db():
     # 从mysql数据库获取商品spu库所有数据
     spu = Spu.query.all()
 
-    def get_spu_db(row):
+    def get_data(row):
         # 准备数据
         return {
-            "goods_id": row["sn"],
-            "goods_name": row["name"],
-            "goods_caption": row["caption"],
-            "brand_id": row["brand_id"],
-            "category1_id": row["category1_id"],
-            "category2_id": row["category2_id"],
-            "category3_id ": row["category3_id "],
-            "image": row["image"],
-            "images": row["images"],
-            "sale_servie": row["sale_servie"],
-            "introduction": row["introduction"],
-            "spec_items": row["spec_items"],
-            "para_items": row["para_items"],
-            "sale_num": row["sale_num"],
-            "comment_num": row["comment_num"],
-            "is_marketable": row["is_marketable"],
-            "is_enable_spec": row["is_enable_spec"],
-            "is_delete": row["is_delete"],
-            "status": row["status"]
+            "goods_id": row.sn,
+            "goods_name": row.name,
+            "goods_caption": row.caption,
+            "brand_id": row.brand_id,
+            "category1_id": row.category1_id,
+            "category2_id": row.category2_id,
+            "category3_id ": row.category3_id,
+            "image": row.image,
+            "images": row.images,
+            "sale_service": row.sale_service,
+            "introduction": row.introduction,
+            "spec_items": row.spec_items,
+            "para_items": row.para_items,
+            "sale_num": row.sale_num,
+            "comment_num": row.comment_num,
+            "is_marketable": row.is_marketable,
+            "is_enable_spec": row.is_enable_spec,
+            "is_delete": row.is_delete,
+            "status": row.status
         }
+    return map(get_data, spu)
+
+
+# 把取出的数据写入到elasticsearch
+def write_elasticsearch(es, index="index_goods"):
+    # 创建ES索引-如存在则不创建
+    if not es.indices.exists(index=index):
+        es.indices.create(index=index, body=mappings())
     try:
-        for row_spu in spu:
-            print(row_spu['status'])
-            # res = es.index(index=index, body=get_spu_db(row_spu), id=row_spu['sn'])
-            # print(res)
+        for row in get_spu_db():
+            es.index(index=index, body=row, id=row["goods_id"])
     except Exception as e:
         print('ES编制索引错误：', e)

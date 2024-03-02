@@ -1,6 +1,6 @@
 from flask import Blueprint, request
-from elasticsearch import Elasticsearch
-from .mysql_to_elasticsearch import write_elasticsearch
+from extends import es
+
 from .goods_db_model import CategoryGoods, Brand, CategoryBrand, Spu, Sku, Para, Spec, Pref, Template
 
 # 创建蓝图
@@ -10,16 +10,14 @@ goods_bp = Blueprint('goods', __name__, url_prefix='/', static_folder='./static'
 # 商品搜索接口
 @goods_bp.route('/goods/list', methods=('GET', ))
 def search():
-    # data = request.get_json()
+    data = request.get_json()
     # 按商品搜索，商品id查找就不写了,商品分页也不写了
-    # query = data.get("goodsName")
+    query = data.get("goodsName")
     # page = data.get("page") | 1
-    es = Elasticsearch(['http://192.168.43.85:9200'])
-    # write_elasticsearch(es)
     dsl = {
         "query": {
             "multi_match": {
-                "query": '小米',
+                "query":  query,
                 "fields": ["goods_name", "goods_caption"]
             }
         }
@@ -42,7 +40,7 @@ def search():
             }
         }
     }
-    return results
+    return data
 
 
 """

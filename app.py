@@ -4,11 +4,13 @@ from flask_migrate import Migrate
 
 from advertBluePrint.advert import advert_bp
 import config
-from extends import db
+from extends import db, es
+from goodsBluePrint.mysql_to_elasticsearch import write_elasticsearch
 from goodsBluePrint.goods import goods_bp
 from userBluePrint.login import user_bp
+from api.home import api_bp
 
-app = Flask(__name__)
+app = Flask(__name__)  # flask实例
 app.config.from_object(config.Config)  # 实例app的配置加载
 
 # 要允许跨源发出Cookie或经过身份验证的请求，只需将`supports_credentials`选项设置为True即可
@@ -19,8 +21,12 @@ db.init_app(app)
 app.register_blueprint(user_bp)
 app.register_blueprint(goods_bp)
 app.register_blueprint(advert_bp)
+app.register_blueprint(api_bp)
 # 迁移数据库的操作对象migrate
 migrate = Migrate(app, db)
+
+# 创建商品ES索引结构，并写入数据
+write_elasticsearch(es)
 
 
 @app.route('/')
